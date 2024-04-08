@@ -11,7 +11,7 @@ export default function RootLayout({
         <header className="bg-gray-200 flex items-center justify-center text-3xl h-20">
           HEADER
         </header>
-        <div className="flex-1 flex  justify-center items-center">
+        <div className="flex-1 flex justify-center items-center">
           {children}
         </div>
         <footer className="bg-gray-200 flex items-center justify-center text-3xl h-20">
