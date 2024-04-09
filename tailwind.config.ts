@@ -55,7 +55,16 @@ const config: Config = {
   content: ["./src/app/**/*.tsx"],
   theme: {
     colors: tailwindColors,
+    container: {
+      center: true,
+    },
+    extend: {
+      backgroundImage: {
+        "hero-pattern": "url('/images/tile.svg')",
+      },
+    },
   },
+  darkMode: "selector",
   plugins: [],
 };
 export default config;
