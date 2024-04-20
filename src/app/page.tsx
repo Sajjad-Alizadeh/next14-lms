@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Button } from "./_components/button";
 
 export default function Home() {
   return (
@@ -9,13 +10,21 @@ export default function Home() {
             خوش اومدی به ...
           </h3>
           <h1 className="text-3xl font-black gradient lg:text-3xl xl:text-5xl">
-          مسیر صعود به قله‌های برنامه‌نویسی
+            مسیر صعود به قله‌های برنامه‌نویسی
           </h1>
           <p className="text-lg font-bold leading-8">
             هر جای مسیرِ برنامه‌نویسی که باشی، با هم‌راهی استادهای باتجربهٔ
             کلاسبن می‌تونی بدون محدودیت به قله‌های بالاتر صعود کنی. ما همیشه
             هواتو داریم.
           </p>
+          <div className="mt-5 flex gap-4">
+            <Button variant="primary" size="large">
+              دوره‌های ری‌اکت و نکست
+            </Button>
+            <Button variant="neutral" size="large">
+              مشاوره برنامه‌نویسی
+            </Button>
+          </div>
           <Image
             src="/images/frameworks.png"
             className="grayscale mt-4 opacity-70 m-auto xl:m-0"
@@ -24,7 +33,12 @@ export default function Home() {
             alt=""
           />
         </div>
-        <Image src="/images/programmer-landing.svg" width={702} height={521} alt="کلاسبن"/>
+        <Image
+          src="/images/programmer-landing.svg"
+          width={702}
+          height={521}
+          alt="کلاسبن"
+        />
       </div>
     </section>
   );
