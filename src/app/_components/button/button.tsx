@@ -1,3 +1,5 @@
+"use client";
+
 import { Loading } from "../loading";
 import { Size } from "../types/size.type";
 import { ButtonProps, ButtonShape } from "./button.types";
@@ -30,7 +32,6 @@ export const Button: React.FC<ButtonProps> = ({
   type = "button",
   isLink = false,
   animatedIcon = false,
-  disabled,
   children,
   ...rest
 }: ButtonProps) => {
@@ -47,7 +48,7 @@ export const Button: React.FC<ButtonProps> = ({
   );
 
   return (
-    <button type={type} disabled={disabled} className={classes} {...rest}>
+    <button type={type} disabled={isDisabled} className={classes} {...rest}>
       {isLoading && <Loading type={loadingType} />}
       {isLoading ? loadingText : children}
     </button>
