@@ -3,10 +3,12 @@ const createJestConfig = nextJest({
   dir: './',
 })
 
+/** @type {import('jest').Config} */
 const config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
-  preset: 'ts-jest'
+  preset: 'ts-jest',
+  modulePathIgnorePatterns: ['node_modules', 'jest-test-results.json'], /*To prevent from loop*/
 }
 
 module.exports = createJestConfig(config)
