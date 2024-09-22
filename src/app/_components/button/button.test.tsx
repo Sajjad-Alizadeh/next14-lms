@@ -105,4 +105,16 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveClass("animated-icon")
   })
 
+  test('show rendered button', () => {
+    render(
+      <Button variant="primary"
+              isDisabled={true}
+              isLoading={true}
+              size="large">
+        Click here
+      </Button>
+    );
+    screen.debug()
+  })
+
 })
