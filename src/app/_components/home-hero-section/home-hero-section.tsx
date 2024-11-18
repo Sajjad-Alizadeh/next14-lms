@@ -1,5 +1,6 @@
 import {Button} from "@/app/_components/button";
 import Image from "next/image";
+import {IconArrowLeftFill} from "@/app/_components/icons";
 
 export const HomeHeroSection = () => {
   return (
@@ -17,9 +18,10 @@ export const HomeHeroSection = () => {
             کلاسبن می‌تونی بدون محدودیت به قله‌های بالاتر صعود کنی. ما همیشه
             هواتو داریم.
           </p>
-          <div className="mt-5 flex gap-4">
+          <div className="mt-5 flex justify-center xl:justify-start gap-4">
             <Button variant="primary" size="large">
               دوره‌های ری‌اکت و نکست
+              <IconArrowLeftFill fill={'currentColor'}/>
             </Button>
             <Button variant="neutral" size="large">
               مشاوره برنامه‌نویسی
