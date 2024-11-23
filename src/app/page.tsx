@@ -1,5 +1,4 @@
 import {HomeHeroSection} from "@/app/_components/home-hero-section/home-hero-section";
-import {CourseSummary} from "@/types/course-summary.interface";
 import {CourseCardList} from "@/app/(courses)/_components/course-card-list";
 import {homeFeatures} from "@/data/home-features";
 import Feature from "@/app/_components/feature/feature";
@@ -8,15 +7,8 @@ import {IconArrowLeftFill} from "@/app/_components/icons";
 import {BlogPostCardList} from "@/app/(blog)/blog/_components/blog-post-card-list";
 import {BlogPostSummary} from "@/types/blog-post-summary.interface";
 import {API_URL} from "@/configs/global";
-
-async function getNewestCourses(count: number): Promise<CourseSummary[]> {
-  const res = await fetch(`${API_URL}/courses/newest/${count}`, {
-    next: {
-      revalidate: 24 * 60 * 60
-    }
-  });
-  return res.json();
-}
+import {Suspense} from "react";
+import {CardPlaceholder} from "@/app/_components/placeholderes";
 
 async function getNewestBlog(count: number): Promise<BlogPostSummary[]> {
   const res = await fetch(`${API_URL}/blog/newest/${count}`, {
@@ -28,13 +20,10 @@ async function getNewestBlog(count: number): Promise<BlogPostSummary[]> {
 }
 
 export default async function Home() {
-  const newestCoursesData = await getNewestCourses(4)
   const newestBlogData = await getNewestBlog(4)
 
-  const [newestCourses, newestBlogPosts] = await Promise.all([newestCoursesData, newestBlogData])
+  const [newestBlogPosts] = await Promise.all([newestBlogData])
 
-  console.log(newestBlogPosts)
-  console.log(newestCourses)
   return (
     <>
       <HomeHeroSection/>
@@ -50,7 +39,9 @@ export default async function Home() {
           <h2 className="text-xl font-extrabold">تازه ترین دوره های آموزشی</h2>
           <p>برای بروز موندن، یادگرفتن نکته های تازه ضروریه!</p>
         </div>
-        <CourseCardList courses={newestCourses}/>
+        <Suspense fallback={<CardPlaceholder count={5}/>}>
+          <CourseCardList courses={[]}/>
+        </Suspense>
       </section>
       <section className="px-2 my-40">
         {/* <div className="sticky top-0 pt-0 text-center"> */}
