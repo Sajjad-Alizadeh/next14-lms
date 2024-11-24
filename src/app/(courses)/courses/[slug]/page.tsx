@@ -1,7 +1,6 @@
 import {CourseDetails} from "@/types/course-details.interface";
 import {API_URL} from "@/configs/global";
-import {Rating} from "@/app/_components/rating";
-import {Progress} from "@/app/_components/progress";
+import {CourseAside} from "@/app/(courses)/courses/[slug]/_components";
 
 export async function generateStaticParams() {
   const slugs = await fetch(`${API_URL}/courses/slugs`).then(res => res.json());
@@ -20,7 +19,7 @@ export default async function CourseDetailsPage({params}: { params: { slug: stri
   const {slug} = params;
   const course = await getCourseDetails(slug)
   return (
-    <div className="h-96 container grid grid-cols-10 grid-rows-[1fr 1fr] gap-10 py-10">
+    <div className="container grid grid-cols-10 grid-rows-[1fr 1fr] gap-10 py-10">
       <div
         className="bg-primary pointer-events-none absolute left-1/2 aspect-square w-1/2 -translate-x-1/2 -top-96 rounded-full opacity-10 blur-3xl"></div>
       <div className="col-span-10 xl:col-span-7">
@@ -34,11 +33,7 @@ export default async function CourseDetailsPage({params}: { params: { slug: stri
         <div className=" mt-5">Video Player Component</div>
       </div>
       <div className="col-span-10 xl:col-span-3">
-        <Rating rate={3}/>
-        <Progress value={75}/>
-        <Progress value={75} variant={'success'} size={'tiny'}/>
-        <Progress value={75} variant={'info'} size={'small'}/>
-        <Progress value={75} variant={'warning'} size={'large'}/>
+        <CourseAside {...course}/>
       </div>
       <div className="col-span-10 xl:col-span-6 bg-accent"></div>
       <div className="col-span-10 xl:col-span-4 bg-warning"></div>
