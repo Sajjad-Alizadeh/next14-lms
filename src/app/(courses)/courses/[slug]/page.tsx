@@ -1,6 +1,8 @@
 import {CourseDetails} from "@/types/course-details.interface";
 import {API_URL} from "@/configs/global";
 import {CourseAside} from "@/app/(courses)/courses/[slug]/_components";
+import {Tab} from "@/types/tab.type";
+import {Tabs} from "@/app/_components/tabs";
 
 export async function generateStaticParams() {
   const slugs = await fetch(`${API_URL}/courses/slugs`).then(res => res.json());
@@ -18,6 +20,22 @@ async function getCourseDetails(slug: string): Promise<CourseDetails> {
 export default async function CourseDetailsPage({params}: { params: { slug: string } }) {
   const {slug} = params;
   const course = await getCourseDetails(slug)
+
+  const tabs: Tab[] = [
+    {
+      label: "مشخصات دوره",
+      content: course.description,
+    },
+    {
+      label: "دیدگاه‌ها و پرسش",
+      content: "course comments",
+    },
+    {
+      label: "سوالات متداول",
+      content: "accordion components",
+    },
+  ];
+
   return (
     <div className="container grid grid-cols-10 grid-rows-[1fr 1fr] gap-10 py-10">
       <div
@@ -35,7 +53,9 @@ export default async function CourseDetailsPage({params}: { params: { slug: stri
       <div className="col-span-10 xl:col-span-3">
         <CourseAside {...course}/>
       </div>
-      <div className="col-span-10 xl:col-span-6 bg-accent"></div>
+      <div className="col-span-10 xl:col-span-6">
+        <Tabs tabs={tabs}/>
+      </div>
       <div className="col-span-10 xl:col-span-4 bg-warning"></div>
     </div>
   )
