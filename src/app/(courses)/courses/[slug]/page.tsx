@@ -1,6 +1,7 @@
 import {CourseDetails} from "@/types/course-details.interface";
 import {API_URL} from "@/configs/global";
 import {Rating} from "@/app/_components/rating";
+import {Progress} from "@/app/_components/progress";
 
 export async function generateStaticParams() {
   const slugs = await fetch(`${API_URL}/courses/slugs`).then(res => res.json());
@@ -34,6 +35,10 @@ export default async function CourseDetailsPage({params}: { params: { slug: stri
       </div>
       <div className="col-span-10 xl:col-span-3">
         <Rating rate={3}/>
+        <Progress value={75}/>
+        <Progress value={75} variant={'success'} size={'tiny'}/>
+        <Progress value={75} variant={'info'} size={'small'}/>
+        <Progress value={75} variant={'warning'} size={'large'}/>
       </div>
       <div className="col-span-10 xl:col-span-6 bg-accent"></div>
       <div className="col-span-10 xl:col-span-4 bg-warning"></div>
