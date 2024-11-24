@@ -31,7 +31,7 @@ export const CourseCard: FC<CourseCardProps> = ({coverImageId, title, slug, dura
         </div>
       </div>
       <Link
-        href={`/course/${slug}`}
+        href={`/courses/${slug}`}
         className="card-footer justify-center animated-icon">
         مشاهده جزئیات دوره
         <IconArrowLeftFill fill={"currentColor"}/>
