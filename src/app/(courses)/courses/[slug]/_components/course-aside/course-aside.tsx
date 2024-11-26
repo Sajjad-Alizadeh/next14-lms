@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {CourseAsideTypes} from "@/app/(courses)/courses/[slug]/_components/course-aside.types";
+import {CourseAsideTypes} from "@/app/(courses)/courses/[slug]/_components/course-aside/course-aside.types";
 import {CourseLevel} from "@/enum/course-level.enum";
 import {Variant} from "@/app/_components/types/variant.type";
 import {Price} from "@/app/_components/price";
