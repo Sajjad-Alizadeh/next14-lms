@@ -1,10 +1,11 @@
 import {CourseDetails} from "@/types/course-details.interface";
 import {API_URL} from "@/configs/global";
-import {CourseAside} from "@/app/(courses)/courses/[slug]/_components";
+import {CourseAside} from "@/app/(courses)/courses/[slug]/_components/course-aside";
 import {Tab} from "@/types/tab.type";
 import {Tabs} from "@/app/_components/tabs";
 import {Accordion as AccordionType} from "@/types/accordion.type";
 import {Accordion} from "@/app/_components/accordion";
+import CourseComments from "@/app/(courses)/courses/[slug]/_components/comments/course-comments";
 
 export async function generateStaticParams() {
   const slugs = await fetch(`${API_URL}/courses/slugs`).then(res => res.json());
@@ -38,7 +39,7 @@ export default async function CourseDetailsPage({params}: { params: { slug: stri
     },
     {
       label: "دیدگاه‌ها و پرسش",
-      content: "course comments",
+      content: <CourseComments/>,
     },
     {
       label: "سوالات متداول",
