@@ -1,3 +1,7 @@
-export default async function SigninPage() {
-  return <div>Signin page</div>;
+import SigninForm from "@/app/(auth)/signin/components/signin-form";
+
+export default async function SignInPage() {
+  return (
+    <SigninForm/>
+  );
 }
