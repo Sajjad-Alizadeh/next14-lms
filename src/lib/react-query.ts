@@ -1,7 +1,13 @@
-import {QueryCache, QueryClient} from "@tanstack/query-core";
+import {MutationCache, QueryCache, QueryClient} from "@tanstack/query-core";
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
+    onError: (error) => {
+      // show notification
+    }
+  }),
+
+  mutationCache: new MutationCache({
     onError: (error) => {
       // show notification
     }
