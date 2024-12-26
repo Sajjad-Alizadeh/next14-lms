@@ -1,4 +1,4 @@
-import {SignIn} from "@/app/(auth)/signin/types/signin.types";
+import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
 import {createData} from "@/core/http-service/http-service";
 import {useMutation} from "@tanstack/react-query";
 
