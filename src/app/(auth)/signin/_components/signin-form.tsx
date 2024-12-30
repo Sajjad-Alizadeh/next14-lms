@@ -19,18 +19,15 @@ const SignInForm = () => {
     }
   })
 
-  const onSubmit = (data: SignIn) => {
-    signIn.submit(data)
-  }
-
   const showNotification = useNotificationStore(state => state.showNotification);
 
-  useEffect(() => {
+  const onSubmit = (data: SignIn) => {
+    signIn.submit(data)
     showNotification({
-      type: 'success',
-      message: 'عملیات با موفقیت انجام شد',
-    });
-  }, []);
+      message: 'کد تایید به شماره شما ارسال شد',
+      type: 'info'
+    })
+  }
 
   return (
     <>
