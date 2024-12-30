@@ -6,7 +6,6 @@ import {TextInput} from "@/app/_components/form-input";
 import {useSignIn} from "@/app/(auth)/signin/_api/signin";
 import {useRouter} from "next/navigation";
 import {useNotificationStore} from "@/stores/notification.store";
-import {useEffect} from "react";
 import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
 
 const SignInForm = () => {
@@ -16,6 +15,10 @@ const SignInForm = () => {
   const signIn = useSignIn({
     onSuccess: () => {
       router.push(`/verify?mobile=${getValues('mobile')}`)
+      showNotification({
+        message: 'کد تایید به شماره شما ارسال شد',
+        type: 'info'
+      })
     }
   })
 
@@ -23,10 +26,6 @@ const SignInForm = () => {
 
   const onSubmit = (data: SignIn) => {
     signIn.submit(data)
-    showNotification({
-      message: 'کد تایید به شماره شما ارسال شد',
-      type: 'info'
-    })
   }
 
   return (
