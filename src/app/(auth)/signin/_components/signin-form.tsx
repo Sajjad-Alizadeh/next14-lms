@@ -7,9 +7,13 @@ import {useSignIn} from "@/app/(auth)/signin/_api/signin";
 import {useRouter} from "next/navigation";
 import {useNotificationStore} from "@/stores/notification.store";
 import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {signInSchema} from "@/app/(auth)/signin/_types/signin.schema";
 
 const SignInForm = () => {
-  const {register, handleSubmit, formState: {errors}, getValues} = useForm<SignIn>()
+  const {register, handleSubmit, formState: {errors}, getValues} = useForm<SignIn>({
+    resolver: zodResolver(signInSchema)
+  })
   const router = useRouter()
 
   const signIn = useSignIn({
@@ -35,18 +39,7 @@ const SignInForm = () => {
       <form className="flex flex-col gap-6 mt-16" onSubmit={handleSubmit(onSubmit)}>
         <TextInput<SignIn> register={register}
                            name={'mobile'}
-                           errors={errors}
-                           rules={{
-                             required: 'شماره موبایل الزامی است',
-                             maxLength: {
-                               value: 11,
-                               message: 'شماره موبایل باید 11 رقم باشد'
-                             },
-                             minLength: {
-                               value: 11,
-                               message: 'شماره موبایل باید 11 رقم باشد'
-                             }
-                           }}/>
+                           errors={errors}/>
         <Button type="submit" variant="primary" isLoading={signIn.isPending}>
           تایید و دریافت کد
         </Button>
