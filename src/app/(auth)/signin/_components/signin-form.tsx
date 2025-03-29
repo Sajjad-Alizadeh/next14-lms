@@ -11,10 +11,9 @@ import {signInSchema} from "@/app/(auth)/signin/_types/signin.schema";
 import {signInAction} from "@/actions/auth";
 import {useFormState} from 'react-dom'
 import {useEffect} from "react";
-import {Alert} from "@/app/_components/alert";
 
 const SignInForm = () => {
-  const [formState, action] = useFormState(signInAction, {message: ''})
+  const [formState, action] = useFormState(signInAction, null)
   const {register, handleSubmit, formState: {errors}, getValues} = useForm<SignIn>({
     resolver: zodResolver(signInSchema)
   })
@@ -23,12 +22,19 @@ const SignInForm = () => {
   const showNotification = useNotificationStore(state => state.showNotification);
 
   useEffect(() => {
-    if (formState.message) {
-      // router.push(`/verify?mobile=${getValues('mobile')}`)
+    if (formState && !formState.isSuccess && formState.error) {
       showNotification({
-        message: formState.message /*'کد تایید به شماره شما ارسال شد'*/,
+        message: formState.error.detail!,
         type: 'error'
       })
+    } else if (formState && formState.isSuccess) {
+      router.push(`/verify?mobile=${getValues('mobile')}`)
+      showNotification({
+        message: 'کد تایید به شماره شما ارسال شد',
+        type: 'success'
+      })
+
+      console.log(formState.response)
     }
   }, [formState, showNotification])
 
@@ -50,11 +56,6 @@ const SignInForm = () => {
         <Button type="submit" variant="primary">
           تایید و دریافت کد
         </Button>
-
-        {
-          formState.message &&
-          <Alert variant={'error'}>{formState.message}</Alert>
-        }
       </form>
     </>
   );
