@@ -1,7 +1,11 @@
 import VerificationForm from "@/app/(auth)/verify/_components/verification-form";
 
-export default async function VerifyPage() {
+export default async function VerifyPage({
+                                           searchParams
+                                         }: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   return (
-    <VerificationForm/>
+    <VerificationForm mobile={searchParams['mobile'] as string}/>
   );
 }

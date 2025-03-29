@@ -4,6 +4,7 @@ import {OperationResult} from "@/types/operation-result";
 import {serverActionWrapper} from "@/actions/server-action-wrapper";
 import {createData} from "@/core/http-service/http-service";
 import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
+import {SendAuthCode} from "@/app/(auth)/verify/_types/verify-user.type";
 
 export async function signInAction(
   formState: OperationResult<string> | null,
@@ -29,4 +30,13 @@ export async function signInAction(
   // }
   // }
 
+}
+
+export async function sendAuthCode(
+  formState: OperationResult<string> | null,
+  mobile: string
+) {
+  return serverActionWrapper(async () =>
+    await createData<SendAuthCode, string>("/send-auth-code", {mobile})
+  )
 }
