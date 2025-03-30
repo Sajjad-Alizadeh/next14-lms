@@ -10,9 +10,10 @@ import {TimerRef} from "@/app/_components/timer/timer.types";
 import {useForm} from "react-hook-form";
 import {VerifyUserModel} from "@/app/(auth)/verify/_types/verify-user.type";
 import {useNotificationStore} from "@/stores/notification.store";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {useFormState} from "react-dom";
 import {sendAuthCode, verify} from "@/actions/auth";
+import {getSession} from "next-auth/react";
 
 const getTwoMinutesFromNow = () => {
   const time = new Date();
@@ -24,6 +25,8 @@ const VerificationForm = ({mobile}: { mobile: string }) => {
   const [showResendCode, setShowResendCode] = useState<boolean>(false);
   const authCodeRef = useRef<AuthCodeRef>(null);
   const timerRef = useRef<TimerRef>(null);
+
+  const router = useRouter()
 
   const [sendAuthCodeState, sendAuthCodeAction] = useFormState(sendAuthCode, null)
   const [verifyState, verifyAction] = useFormState(verify, undefined)
@@ -51,15 +54,28 @@ const VerificationForm = ({mobile}: { mobile: string }) => {
     }
   }, [showNotification, sendAuthCodeState])
 
+  useEffect(() => {
+    if (verifyState && !verifyState.isSuccess) {
+      showNotification({
+        message: '',
+        type: 'error'
+      })
+    } else if (verifyState?.isSuccess) {
+      // don't forget to update session, because we disable auto update feature
+      const fetchSession = async () => await getSession()
+      fetchSession()
+      router.push('/student/courses')
+    }
+  }, [verifyState, showNotification]);
 
   const onSubmit = (data: VerifyUserModel) => {
     data.username = username;
-    const formData = new FormData()
-    formData.append('username', data.username)
-    formData.append('code', data.code)
 
     startTransition(async ()=>{
-      verifyAction(formData)
+      verifyAction({
+        username: data.username,
+        code: data.code
+      })
     })
   }
 

@@ -4,7 +4,7 @@ import {OperationResult} from "@/types/operation-result";
 import {serverActionWrapper} from "@/actions/server-action-wrapper";
 import {createData} from "@/core/http-service/http-service";
 import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
-import {SendAuthCode} from "@/app/(auth)/verify/_types/verify-user.type";
+import {SendAuthCode, VerifyUserModel} from "@/app/(auth)/verify/_types/verify-user.type";
 import {Problem} from "@/types/http-errors.interface";
 import {signIn, signOut} from "../../../auth";
 
@@ -43,15 +43,18 @@ export async function sendAuthCode(
   )
 }
 
-export async function verify(state: Problem | unknown, formData: FormData) {
+export async function verify(prevState: OperationResult<void> | unknown, model: VerifyUserModel) {
   try {
-    await signIn("credentials", formData)
-  } catch (e) {
-    // todo
+    await signIn("credentials", {
+      username: model.username,
+      code: model.code,
+      redirect: false // disable session auto update (because I want to manually redirect to a new page)
+    })
     return {
-      status: 0,
-      title: ''
-    } satisfies Problem
+      isSuccess: true
+    } satisfies OperationResult<void>
+  } catch (e) {
+    throw new Error('')
   }
 }
 
