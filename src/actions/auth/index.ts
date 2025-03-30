@@ -5,6 +5,8 @@ import {serverActionWrapper} from "@/actions/server-action-wrapper";
 import {createData} from "@/core/http-service/http-service";
 import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
 import {SendAuthCode} from "@/app/(auth)/verify/_types/verify-user.type";
+import {Problem} from "@/types/http-errors.interface";
+import {signIn, signOut} from "../../../auth";
 
 export async function signInAction(
   formState: OperationResult<string> | null,
@@ -39,4 +41,20 @@ export async function sendAuthCode(
   return serverActionWrapper(async () =>
     await createData<SendAuthCode, string>("/send-auth-code", {mobile})
   )
+}
+
+export async function verify(state: Problem | unknown, formData: FormData) {
+  try {
+    await signIn("credentials", formData)
+  } catch (e) {
+    // todo
+    return {
+      status: 0,
+      title: ''
+    } satisfies Problem
+  }
+}
+
+export async function logout() {
+  await signOut()
 }

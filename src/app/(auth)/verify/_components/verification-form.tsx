@@ -4,7 +4,7 @@ import AuthCode from "@/app/_components/auth-code/auth-code";
 import {AuthCodeRef} from "@/app/_components/auth-code/auth-code.types";
 import {Button} from "@/app/_components/button/button";
 import Link from "next/link";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState, useTransition} from "react";
 import {Timer} from "@/app/_components/timer/timer";
 import {TimerRef} from "@/app/_components/timer/timer.types";
 import {useForm} from "react-hook-form";
@@ -12,7 +12,7 @@ import {VerifyUserModel} from "@/app/(auth)/verify/_types/verify-user.type";
 import {useNotificationStore} from "@/stores/notification.store";
 import {useSearchParams} from "next/navigation";
 import {useFormState} from "react-dom";
-import {sendAuthCode} from "@/actions/auth";
+import {sendAuthCode, verify} from "@/actions/auth";
 
 const getTwoMinutesFromNow = () => {
   const time = new Date();
@@ -26,6 +26,8 @@ const VerificationForm = ({mobile}: { mobile: string }) => {
   const timerRef = useRef<TimerRef>(null);
 
   const [sendAuthCodeState, sendAuthCodeAction] = useFormState(sendAuthCode, null)
+  const [verifyState, verifyAction] = useFormState(verify, undefined)
+  const [verifyPendingState, startTransition] = useTransition()
 
   const {handleSubmit, setValue, register, formState: {isValid}} = useForm<VerifyUserModel>();
 
@@ -52,7 +54,13 @@ const VerificationForm = ({mobile}: { mobile: string }) => {
 
   const onSubmit = (data: VerifyUserModel) => {
     data.username = username;
-    console.log(data);
+    const formData = new FormData()
+    formData.append('username', data.username)
+    formData.append('code', data.code)
+
+    startTransition(async ()=>{
+      verifyAction(formData)
+    })
   }
 
   register('code', {
@@ -83,7 +91,7 @@ const VerificationForm = ({mobile}: { mobile: string }) => {
         <Timer ref={timerRef} className="my-8" size="small" onExpire={()=> {setShowResendCode(true)}} expiryTimestamp={getTwoMinutesFromNow()} showDays={false} showHours={false}/>
 
         <Button isLink={true} isDisabled={!showResendCode} onClick={resendAuthCode}>ارسال مجدد کد تایید</Button>
-        <Button type="submit" variant="primary" isDisabled={!isValid}>
+        <Button type="submit" variant="primary" isLoading={verifyPendingState} isDisabled={!isValid}>
           تایید و ادامه
         </Button>
         <div className="flex items-start gap-1 justify-center mt-auto">
