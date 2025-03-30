@@ -26,3 +26,5 @@ export const Textbox: FC<TextboxProps> = forwardRef<HTMLInputElement, TextboxPro
   );
   return <input  ref={ref} type={type} className={classes} {...rest}/>;
 });
+
+Textbox.displayName = "Textbox";
