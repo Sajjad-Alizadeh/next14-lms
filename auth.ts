@@ -7,6 +7,8 @@ import {VerifyUserModel} from "@/app/(auth)/verify/_types/verify-user.type";
 import {User, UserSession, UserToken} from "@/types/user.interface";
 import {API_URL} from "@/configs/global";
 import {jwtDecode} from "jwt-decode";
+import {CredentialsSignin} from "@auth/core/errors";
+import {Problem} from "@/types/http-errors.interface";
 
 declare module 'next-auth' {
   interface User {
@@ -21,6 +23,15 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   interface JWT {
     user: UserToken
+  }
+}
+
+export class AuthorizeError extends CredentialsSignin {
+  problem: Problem
+
+  constructor(err: Problem) {
+    super();
+    this.problem = err
   }
 }
 
@@ -54,8 +65,8 @@ export const {
           return {
             accessToken: user.token
           }
-        } catch (error) {
-          throw new Error('')
+        } catch (error: unknown) {
+          throw new AuthorizeError(error as Problem)
         }
       }
     })

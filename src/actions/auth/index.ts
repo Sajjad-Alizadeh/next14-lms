@@ -5,8 +5,7 @@ import {serverActionWrapper} from "@/actions/server-action-wrapper";
 import {createData} from "@/core/http-service/http-service";
 import {SignIn} from "@/app/(auth)/signin/_types/signin.types";
 import {SendAuthCode, VerifyUserModel} from "@/app/(auth)/verify/_types/verify-user.type";
-import {Problem} from "@/types/http-errors.interface";
-import {signIn, signOut} from "../../../auth";
+import {AuthorizeError, signIn, signOut} from "../../../auth";
 
 export async function signInAction(
   formState: OperationResult<string> | null,
@@ -54,6 +53,12 @@ export async function verify(prevState: OperationResult<void> | unknown, model: 
       isSuccess: true
     } satisfies OperationResult<void>
   } catch (e) {
+    if (e instanceof AuthorizeError) {
+      return {
+        isSuccess: false,
+        error: e.problem
+      } satisfies OperationResult<void>
+    }
     throw new Error('')
   }
 }

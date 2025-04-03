@@ -55,13 +55,13 @@ const VerificationForm = ({mobile}: { mobile: string }) => {
   }, [showNotification, sendAuthCodeState])
 
   useEffect(() => {
-    if (verifyState && !verifyState.isSuccess) {
+    if (verifyState && !verifyState.isSuccess && verifyState.error.detail) {
       showNotification({
-        message: '',
+        message: verifyState.error.detail,
         type: 'error'
       })
     } else if (verifyState?.isSuccess) {
-      // don't forget to update session, because we disable auto update feature
+      // don't forget to update session, because we disabled auto update feature
       const fetchSession = async () => await getSession()
       fetchSession()
       router.push('/student/courses')
