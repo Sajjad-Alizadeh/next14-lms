@@ -4,7 +4,7 @@ import {IconArrowLeftFill} from "@/app/_components/icons";
 
 export const HomeHeroSection = () => {
   return (
-    <section className="bg-hero-pattern bg-no-repeat bg-center mt-5 xl:mt-20 xl:bg-left ">
+    <section className="bg-hero-pattern bg-no-repeat bg-center mt-5 xl:mt-20 xl:bg-left">
       <div className="container flex flex-col-reverse lg:flex-row items-center">
         <div className="flex flex-col gap-5 mt-12 pb-5 text-center xl:text-right">
           <h3 className="text-xl dark:text-info xl:text-2xl">

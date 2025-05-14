@@ -2,12 +2,13 @@ import {HomeHeroSection} from "@/app/_components/home-hero-section/home-hero-sec
 import {render} from "@testing-library/react";
 import {Button} from "@/app/_components/button";
 import Image from "next/image";
+import {IconArrowLeftFill} from "@/app/_components/icons";
 
 describe('home hero section', () => {
   test('Display the home hero section', () => {
     const {container} = render(<HomeHeroSection/>);
     expect(container).toMatchSnapshot(`
-        <section className="bg-hero-pattern bg-no-repeat bg-center mt-5 xl:mt-20 xl:bg-left">
+    <section className="bg-hero-pattern bg-no-repeat bg-center mt-5 xl:mt-20 xl:bg-left">
       <div className="container flex flex-col-reverse lg:flex-row items-center">
         <div className="flex flex-col gap-5 mt-12 pb-5 text-center xl:text-right">
           <h3 className="text-xl dark:text-info xl:text-2xl">
@@ -21,9 +22,10 @@ describe('home hero section', () => {
             کلاسبن می‌تونی بدون محدودیت به قله‌های بالاتر صعود کنی. ما همیشه
             هواتو داریم.
           </p>
-          <div className="mt-5 flex gap-4">
+          <div className="mt-5 flex justify-center xl:justify-start gap-4">
             <Button variant="primary" size="large">
               دوره‌های ری‌اکت و نکست
+              <IconArrowLeftFill fill={'currentColor'}/>
             </Button>
             <Button variant="neutral" size="large">
               مشاوره برنامه‌نویسی
