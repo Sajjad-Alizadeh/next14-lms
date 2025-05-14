@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 
 const ignoredErrors = [
-  /act(...) is not supported in production builds of React, and might not behave as expected./,
+  /act(...) is not supported in production builds of React./,
 ]
 const consoleError = global.console.error
 global.console.error = (...args) => {
