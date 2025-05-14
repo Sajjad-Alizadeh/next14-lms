@@ -1,0 +1,3 @@
+type FeatureProps = {
+  feature: Feature
+}

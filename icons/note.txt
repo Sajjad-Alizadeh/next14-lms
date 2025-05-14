@@ -1,0 +1,8 @@
+NOTE: after adding your svg files inside icons-svg directory,
+open your terminal and cd to /icons directory then run the following command:
+gulp
+
+by running the gulp command, all your svg files will be converts to react components.
+amazing! icon react component created automatically in the following path:
+src\app\_components\icons\src.
+
